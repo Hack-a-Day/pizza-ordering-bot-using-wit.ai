@@ -1,8 +1,7 @@
 # pizzawit - Talks to wit.ai for speech recognition and analysis in order
 # to make a pizza-ordering chatbot. No actual phone call is made.
 #
-# See here for details:
-# @@ insert hackaday link
+# See here for details: # https://hackaday.com/?p=312908
 #
 # Copyright (c) 2018 - Steven Dufresne
 #
@@ -31,7 +30,7 @@ from wit import Wit
 
 # Put your access token from wit here. Get this from your App's Settings on
 # https://wit.ai. The Server Access Token works.
-access_token = 'HU62PGX7LE4N7KBZSJCD56TC5CGOKQM4' 
+access_token = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' 
 
 client = Wit(access_token)
 
