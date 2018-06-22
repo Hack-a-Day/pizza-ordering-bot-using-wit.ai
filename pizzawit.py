@@ -85,8 +85,8 @@ def first_entity_intent_value(entities, entity):
 coke_ordered = False
 while True:
 
-    # get the next thing said by the pizza place, have Wit.ai do natural
-    # language processing on it, and also play it to the speaker
+    # Get the next thing said by the pizza place, have Wit.ai do natural
+    # language processing on it, and also play it to the speaker.
 
     audio_file = get_phone_response()
     if audio_file == None:
@@ -96,8 +96,8 @@ while True:
     print(resp)
     os.system('aplay ' + audio_file)
 
-    # check if what was said matches any of the things we expected the pizza
-    # place to have said
+    # Check if what was said matches any of the things we expected the pizza
+    # place to have said.
 
     greeting = first_entity_intent_value(resp['entities'], 'greeting')
     asking_for_toppings = first_entity_intent_value(resp['entities'], 'asking_for_toppings')
@@ -106,28 +106,40 @@ while True:
     give_order_ready_time = first_entity_intent_value(resp['entities'], 'give_order_ready_time')
     bye = first_entity_intent_value(resp['entities'], 'bye')
 
-    # based on what the pizza place said, play an appropriate response to
-    # the speaker
+    # Based on what the pizza place said, play an appropriate response to
+    # the speaker.
+    #
+    # Note that there are two approaches for speaking below, playing 
+    # prerecorded clips or using Festival, a free text-to-speech program
+    # (https://elinux.org/RPi_Text_to_Speech_(Speech_Synthesis)).
 
     if greeting:
         os.system('aplay audio_customer_greeting_order_pizza.wav')
+        #os.system("echo %s | festival --tts" % "Hi. Id like to order one small pizza.")
     elif asking_for_toppings:
         os.system('aplay audio_customer_toppings.wav')
+        #os.system("echo %s | festival --tts" % "Green peppers, mushrooms, and meatballs.")
     elif asking_is_that_all:
         if not coke_ordered:
             os.system('aplay audio_customer_one_coke.wav')
+            #os.system("echo %s | festival --tts" % "One Coke.")
             coke_ordered = True
         else:
             os.system('aplay audio_customer_yes.wav')
+            #os.system("echo %s | festival --tts" % "Yes.")
     elif asking_pickup_or_delivery:
         os.system('aplay audio_customer_for_pickup.wav')
+        #os.system("echo %s | festival --tts" % "For pick up.")
     elif give_order_ready_time:
         pickup_in = resp['entities']['giving_duration'][0]['value']
         print('Pick up in %d minutes' % pickup_in)
         os.system('aplay audio_customer_okay_thanks.wav')
+        #os.system("echo %s | festival --tts" % "Okay, thanks.")
     elif bye:
         os.system('aplay audio_customer_bye.wav')
+        #os.system("echo %s | festival --tts" % "Bye.")
     else:
         os.system('aplay audio_customer_didnt_understand.wav')
+        #os.system("echo %s | festival --tts" % "Im sorry, I didn't understand that. I'll get a human on the line.")
         print('HELP!!!!!!!!')
         break
